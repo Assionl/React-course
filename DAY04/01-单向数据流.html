@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>react-单项数据流</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+        /*  Vue React 对比
+            vue v-model 双向数据绑定
+                1.状态修改 -> 界面
+                2.界面修改 -> 状态
+            React
+                1.状态修改 -> 界面
+                2.界面修改 -> 状态 React没有实现 需要自己手动在input的onChange事件里面修改input的value值
+        */
+        class HelloMessage extends React.Component {
+            //   相当于Vue里的data
+            state = {
+                msg:"初始值"
+            }
+            render() {
+                console.log(" render xiugai ...");
+                let {msg} = this.state;
+                return (
+                    <div>
+                        <h1>单项数据流</h1>
+                        <h2>{msg}</h2>
+                        {/*defaultValue是一次性赋值 不需要更新*/}
+                        <input ref="myMsg" type="text" defaultValue={msg} onChange={this.changeHandle.bind(this)}/>
+                        <button onClick={()=>{
+                            console.log("提交",this.refs.myMsg.value);
+                        }}>提交</button>
+                    </div>
+                );
+            }
+            changeHandle(ev){
+                console.log("changeHandle>>>",ev.target.value);
+                this.setState({
+                    msg:ev.target.value
+                })
+            }
+        }
+		ReactDOM.render(<HelloMessage/>,box);
+		
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todolist</title>
+    <script
+    src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+<script
+    src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script
+    src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+
+</head>
+<body>
+        <div id="box"></div>
+        <script type="text/babel">
+        /*   组件之间交互的方式
+        1. 父 -> 子  通过 props 属性传值
+        2. 子 -> 父   vue $emit $on  react回调的
+        3. 兄弟组件 
+
+        4. vuex  redux  除了props属性传递其他都能实现
+        */
+
+        class  TodoComponent extends React.Component{
+            submit(){
+                let title = this.refs.myTitle.value;
+                let des = this.refs.myDes.value;
+                console.log("子组件提交",title,des,this.props);
+                //但是这里TodoComponent添加数据 确要在ListComponent显示
+                // Todo添加数据传给父组件 ,父组件传给List
+                this.props.submit({title,des});
+                // {title:title,des:des}
+            }
+             render(){
+                 return(
+                     <div>
+                        <input type="text" ref="myTitle" defaultValue="白居易" />
+                        <br />
+                        <textarea cols="30" ref="myDes" rows="10" defaultValue="诗魔"></textarea>
+                        <br/>
+                        <button onClick={this.submit.bind(this)}> 添加</button>
+                     </div>
+                 );
+             }
+        }
+        class  ListComponent extends React.Component{
+            deleteItem(index){
+              console.log("子组件 删除");
+            //   1.删除数据 ?todoData 在父组件存着 
+            // 问题就是 子组件怎么修复父组件的 数据
+            // 父元素通过属性传值的方式把函数地址传到子组件,子组件在回调父组件就行了
+            this.props.delete(index);
+          }
+              render(){
+                  console.log("子组件 ListComponent",this.props);
+                  let {todoData} = this.props;
+                  return(
+                      <div>
+                        <ul>
+                            {todoData.map((todoObj,index)=>{
+                                return(
+                                    <li key={index}>
+                                        <h2>{todoObj.title}</h2> 
+                                        <p>{todoObj.des}</p>
+                                        <button onClick={this.deleteItem.bind(this,index)}>删除</button>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                  )
+              }
+        }
+      class TodolistComponet extends React.Component {
+          constructor(){
+              super();
+              this.state = {
+                  todoData:[{title:"李白",des:"诗仙"},
+                  {title:"杜甫",des:"诗圣"}]
+              }
+            //   不管谁调用,反正我在你创建的时候就给你绑定死了TodolistComponet
+              this.deleteItemHandler = this.deleteItemHandler.bind(this);
+          }
+          deleteItemHandler(index){
+              console.log("父组件 删除",index,this);
+            // splice 1 修改元数组 2返回删除的元素组成的数组
+              this.setState((oldSate)=>{
+                //   删除指定元素
+                oldSate.todoData.splice(index,1);
+                  return{
+                    todoData:oldSate.todoData
+                  }
+              });
+          }
+          render() {
+              let {todoData} = this.state;
+            return (
+              <div>
+                    <div>  <TodoComponent submit={(itemObj)=>{
+                        console.log("父组件 submit");
+                        this.setState((oldState)=>{
+                            oldState.todoData.push(itemObj);
+                            return {
+                                todoData:oldState.todoData
+                            }
+                        })
+                    }} /> </div>
+                    <hr />
+                    <div>
+                      <ListComponent 
+                      delete = {this.deleteItemHandler}
+                      todoData={todoData}/>
+                    </div>
+              </div>
+            )
+          }
+        }
+        
+         ReactDOM.render(<TodolistComponet />,box)
+        </script>
+</body>
+</html>
