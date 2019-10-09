@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>03-条件渲染</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+        class LoginComponent extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    toggle:true
+                }
+                // DOM绑定事件必修改this
+                this.changeToggle = this.changeToggle.bind(this);
+            }
+            
+            changeToggle(){
+                console.log('changeToggle的this', this);
+                // 回调的形式，react自带旧的状态值对象
+                this.setState((oldState)=>{
+                    return {
+                        toggle:!oldState.toggle
+                    }
+                })
+            }
+
+            // 切换 1.if else render里面 return外面 2.三目 return里面
+            render() {
+                // 解构
+                let {toggle} = this.state;
+                let layout = null;
+                if (toggle) {
+                    layout = <h1>登录界面。。。。</h1>
+                } else {
+                    layout = <h1>注册界面------</h1>             
+                }
+                return (
+                    <div>
+                        {toggle ? <h1 >登录界面。。。。</h1> : <h1>注册界面------</h1>}
+                        <hr/>
+                        {layout}
+                        <button onClick={this.changeToggle}>切换</button>
+                    </div>
+                )
+            }
+        }
+        
+		ReactDOM.render(<LoginComponent/>,box);
+            {/*这里是注释 */}
+		
+    </script>
+
+</body>
+
+</html>

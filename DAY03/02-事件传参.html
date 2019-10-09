@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>02-事件传参</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+     class ToggleComponent extends React.Component {
+            constructor() {
+                super();
+                this.state = {
+                    toggle:true
+                }
+                // var a = this.toggleHandle.bind(this);
+                //方式2： 以后DOM绑定事件必写的 修改this指向
+                this.toggleHandle = this.toggleHandle.bind(this);
+            }
+            
+            // 自定义函数
+            toggleHandle(event){
+                this.setState((oldState)=>(
+                    {toggle:!oldState.toggle}
+                    )
+                )
+            }
+
+            chooseHandle(event){
+                console.log("chooseHandle",event,this);
+            }
+            render() {
+                let {toggle} = this.state;
+                return (
+                    <div>
+                        {/*
+                        js onclick | react onClick
+                        修改this：
+                        1.用中间函数/箭头函数中转，可用于事件传参
+                        2.用bind修改this指向，可用于事件传参
+                        3.在构造函数中设置，不可以传参
+                        */}
+                        <button onClick={this.toggleHandle}>{toggle ? "ON" : "OFF"}</button>       
+                        <hr/>
+                        <ul>
+                            <li onClick={this.chooseHandle.bind(this,"React")}>React</li>
+                            <li onClick={()=>{this.chooseHandle("Vue")}}>Vue</li>
+                            <li onClick={(ev)=>{
+                                this.chooseHandle("小程序",ev)
+                            }}>小程序</li>
+                        </ul>
+                       
+                    </div>
+                )
+            }
+        }
+        
+		ReactDOM.render(<ToggleComponent/>,box);
+    </script>
+
+</body>
+
+</html>

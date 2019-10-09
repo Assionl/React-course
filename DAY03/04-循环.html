@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>hello react</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+        var numbers = [12,5,6,3,2];
+        // map() 会帮我们创建一个新的数组并且把处理过的数据保存，并return出去，不会改变原数组
+        var mapNumbers = numbers.map((value,index)=>{
+            return value + "px";
+        })
+        console.log('mapNumbers :', mapNumbers);
+        console.log('numbers :', numbers);
+        
+        class ListItem extends React.Component{
+            state = {
+                numbers:[10,2,0,3,5]
+            };
+            render(){
+                let {numbers} = this.state;
+                let items = numbers.map((num,index)=>{
+                    return (
+                        <li key={index}>{num}</li>
+                    )
+                })
+                return(
+                    <div>
+                        <ul>
+                            {items}
+                        </ul>
+                        <br/>
+                        <ol>
+                            {
+                                numbers.map((num,index)=>( 
+                                    <li key={index}>{num}</li>
+                                )
+                            )}
+                        </ol>
+                    </div>
+                )
+                
+            }
+        }
+        
+        ReactDOM.render(<ListItem/>,box);
+    </script>
+
+</body>
+
+</html>
