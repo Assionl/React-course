@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <title>JSX</title>
+    <style>
+        .zhongBei {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <hr>
+    <div id="box2"></div>
+    <script type="text/babel">
+    {/*
+        使用 JSX 编写模板更加简单快速(快速创建DOM标签))
+        JSX创建的DOM：虚拟DOM
+        *<h1>hello jsx</h1>看做对象，不看做布局
+
+    */}
+    {/*
+       1.只是保存了DOM的信息，还是虚拟的
+       let ele = <h1>hello jsx</h1>;
+         多层标签嵌套只有一个根标签
+         jsx支持缩进换行---美观
+         允许用小括号()包起来，布局当成一个整体
+    */}
+    let ele = (
+        <div>
+            <h1>hello jsx</h1>
+            <p>你好 react</p>
+        </div>
+        ) 
+       console.log(ele);//假的
+       console.dir(box);//真的
+	   
+	// 2.绘制到界面上 绘制真正的DOM到指定的容器
+	   ReactDOM.render(ele,box);    //会覆盖之前的内容
+
+       let a = 11; 
+       var color = "red";
+       var isZhongBei = true;
+       ReactDOM.render(
+           <div>
+                {/*
+                {{}} 最外层{}表示里面是变量，里面{}表示变量是个对象 
+                标签的 class属性必须改为 className属性
+                标签的 style属性值必须为 : {{}}
+                */}
+                <p style={{color:color}}>1+1={1+1}</p>
+                {/* 
+                表达式 
+                由于 JSX 就是 JavaScript，一些标识符像 class 和 for 不建议作为 XML 属性名。作为替代，React DOM 使用 className 和 htmlFor 来做对应的属性。
+                即：不能为标签添加class要将class改为className
+                <p className="zhongBei">{sayHi()}</p>
+                */}
+                <p>{a > 10 ? "true":"false"}</p>
+                <p>{(a > 10).toString()}</p>
+                <p>{a > 10 && "布尔值(NaN,null,undefined)不会直接显示到界面上,需要用toString()转换"}</p>
+                <p className="zhongBei">{sayHi()}</p>
+
+                 {/*isZhongBei为false时出错 */}
+                <p className={isZhongBei && "zhongBei"}>{sayHi()}</p> 
+
+                 <p>三目运算符：</p>
+                 <p className={isZhongBei ? "zhongBei" :""}>{sayHi()}</p>
+           </div>
+           ,box2);
+        function sayHi() {
+            // console.log("hi中北大学");需要返回值,否则页面不会显示
+            return <strong>你好 中北大学</strong>
+        }
+    </script>
+</body>
+
+</html>

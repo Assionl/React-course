@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es6-class</title>
+</head>
+
+<body>
+
+    <script>
+        function Person(name, age) {
+            console.log("Person>>>>", this);
+            this.name = name;
+            this.age = age;
+            // return this;
+        }
+        Person.prototype.sex = "男";
+        Person(); //window.Person() this指向window
+        var per1 = new Person("gun", 20);//Person{}
+        var per2 = Person("ree", 25);
+        /*
+        new关键字的作用：
+        1.创建一个对象
+        2.把构造函数的this执行修改为{}当前创建的对象
+        3.返回创建的对象
+        */
+        console.log(per1);
+        console.log(per2); //undefined 没有用new
+
+        console.log(per1, per1.__proto__);
+        // per1.__proto__(双下划綫):通过实例对象去查看原型
+        // Person.prototype:通过构造函数名查看原型
+        // 对象比较的是地址
+        console.log(per1.__proto__ === Person.prototype);
+
+        var per3 = new Person("杜甫", 25);
+        per1.sex = "未知";
+        // 原型上的属性sex和实例上的属性name的区别
+        console.log(per1.name, per1.sex);
+        console.log(per3.name, per3.sex);
+
+        // 实例上放属性，原型上放函数
+    </script>
+</body>
+
+</html>

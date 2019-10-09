@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>hello react</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+       var num = [
+           <h1 key="1" className="red">这个是h1</h1>,
+           <h2 key="2" className="blue">这个是h2</h2>
+       ];
+       var per = {name:"礼拜"};
+		ReactDOM.render((
+            <div>
+            {/*数组会自动展开，{per}对象不识别不能直接解析 */}
+            {num}
+            </div>
+        ),box);
+    </script>
+
+</body>
+
+</html>

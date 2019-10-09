@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>react组件</title>
+</head>
+
+<body>
+    <div id="box"></div>
+    <div id="box2"></div>
+    <script type="text/babel">
+        // 1.组件定义的方式一   函数声明，注意首字母大写
+        function HelloMessage(props) {
+            console.log("props>>>",props);
+            return (
+                <div>
+                    <h1>hello react 组件</h1>
+                    <p>{props.name}</p>
+                </div>
+            );
+        }
+		// ReactDOM.render(<HelloMessage/>,box);
+
+        var ele = <HelloMessage name="中北大学" location="太原"/>
+        {/*
+        React属性不加引号 直接使用{} 
+        <a href={props.url}>网站地址</a>
+        */}
+        ReactDOM.render(ele,box);
+
+        // 组件的嵌套
+        function Name(props) {
+            return(
+                <div>
+                <h1>网站名：{props.name}</h1>
+                </div>
+            );
+        }
+        function Link(props) {
+            return (
+                <div>
+                <a href={props.url}>网站地址{props.url}</a>
+                </div>
+            );
+        }
+        function App() {
+            return (
+                <div>
+                <Name name="大神"/>
+                <Link url="http://www.baidu.com"/>
+                </div>
+            );
+        }
+        ReactDOM.render(<App/>,box2);
+    </script>
+
+</body>
+
+</html>
