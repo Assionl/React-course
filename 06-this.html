@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>this指向问题</title>
+</head>
+
+<body>
+
+    <script>
+        //严格模式下this是undefined
+        // "use strict" 
+        let name = "杜甫";
+        let person = {
+            name: "李白",
+            sayHi: function () {
+                console.log(this.name, "你好");
+            }
+        }
+        person.sayHi();
+
+        var per2 = { name: "王波" };
+        per2.sayHi = person.sayHi;
+        // per2.sayHi();   // this谁调用就是谁
+        per2.sayHi.call(window);
+
+        /*
+        改变this指向：
+        1.apply(修改this指向,[])
+            - 立即执行
+            - 区别在于参数传递格式不一样
+        2.call(修改this指向,原函数的参数)
+            - 立即执行
+            - 修改this指向 并返回一个新函数
+        3.bind(修改this指向,原函数的参数) 
+            - 只是copy一个函数 不会立即执行，返回一个地址，自己找时间调用
+        如何选择：
+        1.是否需要立即执行(call,apply)
+        2.需要一个函数地址，抽空执行(bind)
+        */
+        function fn(a, b) {
+            console.log(this);
+        }
+        // fn(); //window
+        fn.call({}, 10, 20);
+        // fn.apply({}, [10, 20]);
+        // fn.bind({}, 10, 20);
+
+        setInterval(undefined, 1000);
+        // 只执行一次
+        setInterval(function () {
+            console.log(this);
+        }.call({ name: "call" }), 1000);
+
+        setInterval(function () {
+            console.log(this);
+        }.bind({ name: "call" }), 1000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>ES6-class</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script>
+        // 定义类
+        class Person {
+            // 构造函数:类的一部分
+            // 通过类实例化一个对象会执行的函数就是构造函数
+            constructor(x, y) {
+                console.log("Person我被创建了", x, y);
+                console.log(`x:${x},y:${y}`);
+                this.x = x;
+                this.y = y;
+            }
+            // 自定义函数:自动保存到原型上,相当于
+            //  Person.prototype.sayHi = function();
+            sayHi() {
+                // this:谁调用就是谁
+                console.log(`我的位置x:${this.x},y:${this.y}`);
+            }
+        }
+
+        // 类是构造函数的另一种写法
+        console.log(typeof Person); //function 
+
+        // 实例化对象
+        let per1 = new Person(10, 20);
+        console.log(per1);
+        per1.sayHi();
+
+        let per2 = new Person(111, 222);
+        console.log(per2);
+        per2.sayHi();
+
+        // 继承
+        class Teacher extends Person {
+            constructor(x, y, color) {
+                // 子类的构造函数会覆盖父类的构造函数，子类必须手动调用父类构造函数
+                super(x, y);
+                // 一般不写，继承就是为了使用父类的属性及方法，只需要保存自己特有的属性就可以了
+                // this.x = x;父类帮我们处理
+                // this.y = y;
+                this.color = color;
+                console.log("Teacher构造函数");
+            }
+        }
+        let teacher1 = new Teacher(33, 44, "red");
+        console.log(teacher1);
+    </script>
+
+</body>
+
+</html>

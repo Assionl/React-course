@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title> react state</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+
+        class ClockComponent extends React.Component{
+            // props:传递数据(上->下),只能用不能修改
+            // state:修改状态，界面更新
+            // 方式一 定义state (不能加var 会报错)  react规定好的名字不能改
+            // state = {age:30};
+            constructor() {
+                console.log("1.构造函数constructor>>>>>");
+                super();
+                // 自定义属性 在render()里拿不到
+                this.num = 10;
+                // 方式二 state 只能二选一
+                this.state = {
+                    age:20,
+                    time:new Date().toString()
+                };
+            }
+            render() {
+                console.log("2.渲染函数render...",this.props,this.state);
+                // 解构赋值，会自动取key的值
+                let {name} = this.props;
+                let {time} = this.state;
+                return (
+                    <div>
+                        <p>
+                        {/*
+                        这里只写布局 
+                        {name}---{new Date().toString()}
+                        */}
+                        {name}---{time}
+                        </p>
+                    </div>
+                )
+            }
+            // 注意位置与render并列 
+            componentDidMount() {   // 在DOM加载完毕之后执行
+                console.log("componentDidMount>>>>>");
+                 // 错误写法1
+                // this.time = "测试";
+
+                // 错误写法2
+                // this.state.time = "测试";
+
+                console.log("this.time==",this.state.time);
+                
+                // 正确写法
+                // 只有setState才能监听页面改变，绘制界面render进行更新
+                this.timerId = setInterval(() => {
+                    this.setState({
+                        time:new Date().toString()
+                    });
+                }, 1000);
+               
+            }
+            // 消失的时候调用
+            componentWillUnmount() {
+                alert("不会走");
+                clearInterval(this.timerId);
+                console.log("componentWillUnmount>>>>");
+            }
+            
+        }
+        
+		ReactDOM.render(<ClockComponent name="礼拜"/>,box);
+		
+        /*
+        对比vue 
+        created--DOM未渲染完
+        mounted--DOM渲染完
+        */
+    </script>
+
+</body>
+
+</html>

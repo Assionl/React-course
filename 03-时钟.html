@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>hello react</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+
+        class ClockComponent extends React.Component{
+            
+            render() {
+                console.log("render...");
+                return (
+                    <div>
+                        <p>
+                        {/*react不能直接渲染对象，会报错，需要 toString()进行转换*/}
+                        {new Date().toString()}
+                        </p>
+                    </div>
+                )
+            }
+        }
+        
+        // 渲染效率太低，每次渲染都需要走render函数，进行标签的渲染
+        setInterval(() => {
+		    ReactDOM.render(<ClockComponent/>,box);
+        }, 1000);
+	
+    </script>
+
+</body>
+
+</html>

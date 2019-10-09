@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- js一般放在下面，不放在head里   css是异步的 -->
+    <title>hello react</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script type="text/babel">
+     class ToggleComponent extends React.Component {
+            constructor() {
+                super();
+                this.state = {
+                    toggle:true
+                }
+                // var a = this.toggleHandle.bind(this);
+                //方式2： 以后DOM绑定事件必写的 修改this指向
+                this.toggleHandle = this.toggleHandle.bind(this);
+            }
+            
+            // 自定义函数
+            toggleHandle(event){
+                // react会自动把事件参数传过来
+                console.log("toggleHandle点击了",event);
+                console.log("this>>>",this);
+                // 方式1 如果不需要依赖旧值，用的比较方便
+                // this.setState ({
+                //     toggle:!this.state.toggle
+                // })
+                
+                // 方式2 回调函数的形式，自带旧值
+                // 需要依赖旧值的时候比较方便
+                // this.setState((oldState)=>{
+                //   return  {
+                //       toggle:!oldState.toggle
+                //   }
+                // })
+
+                // 如果不写return 注意格式()=>({})
+                this.setState((oldState)=>(
+                    {toggle:!oldState.toggle}
+                    )
+                )
+            }
+
+            render() {
+                let {toggle} = this.state;
+                return (
+                    <div>
+                        {/*
+                        js onclick | react onClick
+                        方式1：
+                        <button onClick={this.toggleHandle.bind(this)}>{toggle ? "ON" : "OFF"}</button>       */}
+                        <button onClick={this.toggleHandle}>{toggle ? "ON" : "OFF"}</button>
+                    </div>
+                )
+            }
+        }
+        
+		ReactDOM.render(<ToggleComponent/>,box);
+    </script>
+
+</body>
+
+</html>
