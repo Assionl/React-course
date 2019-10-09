@@ -16,13 +16,9 @@ import "./axios"
 
 // 导入
 import store from './store/index';
-// redux
-import { Provider } from 'react-redux'
 
 // 怎么让每个界面/组件都访问到store，因为整个项目只有一个store
 // 放在组件顶层的原型上 react的组件顶层是
 Component.prototype.store = store;
 
-ReactDOM.render(<Provider store={store}>
-    <App />
-</Provider>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

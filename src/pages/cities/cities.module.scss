@@ -1,0 +1,18 @@
+.cities-wrap {
+    color: brown;
+
+    .group {
+        border: 1px solid #ccc;
+
+        li {
+            border-top: 1px solid #ccc;
+            display: inline-block;
+            width: 20%;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+}
