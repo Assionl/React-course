@@ -1,0 +1,26 @@
+.tabBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    padding: 0.08rem 0;
+    text-align: center;
+
+    ul {
+        display: flex;
+        justify-content: space-around;
+
+        a {
+            color: #666;
+
+            p {
+                margin-top: 0.05rem;
+            }
+        }
+
+        .selected {
+            color: #3190e8;
+        }
+    }
+}

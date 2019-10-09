@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addAction } from './store/actions'
 class Component404 extends Component {
     constructor() {
         super();

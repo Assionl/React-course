@@ -1,7 +1,7 @@
 let defaultState = {
     guessCity: {},
-    hotCity: null,
-    groupCity: null
+    hotCity: [],
+    groupCity: {}
 }
 
 function reducer(state = defaultState, action) {

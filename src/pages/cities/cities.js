@@ -82,21 +82,14 @@ class CitiesComponent extends Component {
     componentDidMount() {
         // 加个标识表示这个页面的数据已经请求过了，下次再加载就不发请求了
         let { guessCity } = this.props;
-        console.log("this.props city", this.props);
+        console.log("this.props city>>>>>>>>>>>>", this.props);
         if (guessCity.id) return;
 
         let guess = this.requestCities('guess');
         let hot = this.requestCities('hot');
         let group = this.requestCities('group');
         axios.all([guess, hot, group]).then((res) => {
-            console.log(res);
             this.props.mapCities(res);
-            // this.setState({
-            //     guessCity: res[0].data,
-            //     hotCity: res[1].data,
-            //     groupCity: this.sortGroupCity(res[2].data),
-            // })
-            console.log(this.state);
         })
     }
 
@@ -115,8 +108,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         guessCity: state.pageCity.guessCity,
         hotCity: state.pageCity.hotCity,
-        groupCity: state.pageCity.groupCity,
-        // groupCity: sortGroupCity(state.pageCity.groupCity)
+        // groupCity: state.pageCity.groupCity,
+        groupCity: sortGroupCity(state.pageCity.groupCity)
     }
 };
 // 修改状态
